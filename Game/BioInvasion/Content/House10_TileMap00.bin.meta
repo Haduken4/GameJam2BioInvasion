@@ -1,0 +1,13 @@
+[Version:1]
+BinaryContent 
+{
+	BinaryBuilder 
+	{
+		var Name = "House10_TileMap00"
+		var ResourceId = 0x5a1a55e195dbdf4e
+		var LoaderType = "TileMapSource"
+		var Version = 0
+		var FilterTag = ""
+		var ResourceOwner = "5a1a55049cd596d2:House10"
+	}
+}

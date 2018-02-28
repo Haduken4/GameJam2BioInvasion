@@ -1,0 +1,9 @@
+[Version:1]
+TextContent 
+{
+	ZilchScriptBuilder 
+	{
+		var Name = "StartGame"
+		var ResourceId = 0x5ae22b8e9c65e675
+	}
+}

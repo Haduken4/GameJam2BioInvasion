@@ -1,0 +1,28 @@
+/*
+StartGame.zilchscript
+by Bar
+2/12/2018
+brief: ContentHistory will take us to the starting point of our game
+*/
+
+class StartGame : ZilchComponent
+{
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+    {
+      
+      var level = this.Space.MapGenerator.Map[this.Space.MapGenerator.StartCoords.Y][this.Space.MapGenerator.StartCoords.X].Level;
+      
+      this.GameSession.PlayerInfo.CurrentLocation = this.Space.MapGenerator.StartCoords;
+      
+      this.Space.LoadLevel(level);
+    }
+    
+  }
+}

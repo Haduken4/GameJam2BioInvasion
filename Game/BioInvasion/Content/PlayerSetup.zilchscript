@@ -1,0 +1,63 @@
+/*
+PlayerSetup.zilchscript
+by Bar
+2/12/2018
+brief: Spanws player at the starting level with info from playerinfo
+*/
+class PlayerSetup : ZilchComponent
+{
+  [Property]
+  var DefaultSpawn : Real3 = Real3();
+  function Initialize(init : CogInitializer)
+  {
+    //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    
+    //find where to spawn player
+    var spawnPos = this.DefaultSpawn;
+    
+    if(this.GameSession.PlayerInfo.CameFrom == 1)
+    {
+      //check if door is there
+      var door = this.Space.FindObjectByName("Door1");
+      if(door != null)
+      {
+        spawnPos = door.Transform.WorldTranslation + Real3(0, -1.2, 0);
+      }
+    }
+    else if(this.GameSession.PlayerInfo.CameFrom == 2)
+    {
+      //check if door is there
+      var door = this.Space.FindObjectByName("Door2");
+      if(door != null)
+      {
+        spawnPos = door.Transform.WorldTranslation + Real3(-1.2, 0, 0);
+      }
+    }
+    else if(this.GameSession.PlayerInfo.CameFrom == 4)
+    {
+      //check if door is there
+      var door = this.Space.FindObjectByName("Door4");
+      if(door != null)
+      {
+        spawnPos = door.Transform.WorldTranslation + Real3(0, 1.2, 0);
+      }
+    }
+    else if(this.GameSession.PlayerInfo.CameFrom == 8)
+    {
+      //check if door is there
+      var door = this.Space.FindObjectByName("Door8");
+      if(door != null)
+      {
+        spawnPos = door.Transform.WorldTranslation + Real3(1.2, 0, 0);
+      }
+    }
+    
+    //create and place player
+    this.Space.CreateAtPosition(this.GameSession.PlayerInfo.PlayerObj, spawnPos);
+    
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+  }
+}

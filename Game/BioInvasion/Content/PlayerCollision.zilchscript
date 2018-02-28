@@ -1,0 +1,50 @@
+/*
+PlayerCollision.zilchscript
+by Bar
+2/12/2018
+brief: Handles player collision
+*/
+class PlayerCollision : ZilchComponent
+{
+  function Initialize(init : CogInitializer)
+  {
+    //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+  }
+
+  function OnCollisionStarted(event : CollisionEvent)
+  {
+    if(event.OtherObject.Name == "Door1")
+    {
+      this.GameSession.PlayerInfo.CameFrom = 4;
+      this.GameSession.PlayerInfo.CurrentLocation += Integer2(0, -1);
+      var level = this.Space.MapGenerator.Map[this.GameSession.PlayerInfo.CurrentLocation.Y][this.GameSession.PlayerInfo.CurrentLocation.X].Level;
+      this.Space.LoadLevel(level);
+    }
+    else if(event.OtherObject.Name == "Door2")
+    {
+      this.GameSession.PlayerInfo.CameFrom = 8;
+      this.GameSession.PlayerInfo.CurrentLocation += Integer2(1, 0);
+      var level = this.Space.MapGenerator.Map[this.GameSession.PlayerInfo.CurrentLocation.Y][this.GameSession.PlayerInfo.CurrentLocation.X].Level;
+      this.Space.LoadLevel(level);
+    }
+    else if(event.OtherObject.Name == "Door4")
+    {
+      this.GameSession.PlayerInfo.CameFrom = 1;
+      this.GameSession.PlayerInfo.CurrentLocation += Integer2(0, 1);
+      var level = this.Space.MapGenerator.Map[this.GameSession.PlayerInfo.CurrentLocation.Y][this.GameSession.PlayerInfo.CurrentLocation.X].Level;
+      this.Space.LoadLevel(level);
+    }
+    else if(event.OtherObject.Name == "Door8")
+    {
+      this.GameSession.PlayerInfo.CameFrom = 2;
+      this.GameSession.PlayerInfo.CurrentLocation += Integer2(-1, 0);
+      var level = this.Space.MapGenerator.Map[this.GameSession.PlayerInfo.CurrentLocation.Y][this.GameSession.PlayerInfo.CurrentLocation.X].Level;
+      this.Space.LoadLevel(level);
+    }
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+  }
+}

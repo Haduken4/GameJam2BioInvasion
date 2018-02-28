@@ -1,0 +1,41 @@
+/*
+PlayerController.zilchscript
+by Bar
+date 2/12/2018
+brief: basic player controller that uses velocity
+*/
+
+class PlayerController : ZilchComponent
+{
+  [Property]
+  var MoveSpeed : Real = 100;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+  }
+  //move player
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    var movement = Real3();
+    
+    if(Zero.Keyboard.KeyIsDown(Keys.A))
+    {
+      movement.X -= 1;
+    }
+    if(Zero.Keyboard.KeyIsDown(Keys.D))
+    {
+      movement.X += 1;
+    }
+    if(Zero.Keyboard.KeyIsDown(Keys.W))
+    {
+      movement.Y += 1;
+    }
+    if(Zero.Keyboard.KeyIsDown(Keys.S))
+    {
+      movement.Y -= 1;
+    }
+    movement = Math.Normalize(movement);
+    this.Owner.RigidBody.Velocity += movement * this.MoveSpeed * event.Dt;
+  }
+}

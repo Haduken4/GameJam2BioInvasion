@@ -1,0 +1,27 @@
+class PlayerInfo : ZilchComponent
+{
+  [Property]
+  var PlayerObj : Archetype = Archetype.Player;
+  
+  var PlayerLives : Integer;
+  var CurrentLocation : Integer2;
+  //What direction the player came from
+  var CameFrom : Integer;
+  
+  function Initialize(init : CogInitializer)
+  {
+    //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    this.ResetValues();
+  }
+  
+  
+  function ResetValues()
+  {
+    this.PlayerLives = 3;
+    this.CameFrom = 0;
+  }
+  
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+  }
+}

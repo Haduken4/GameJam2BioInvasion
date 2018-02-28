@@ -1,0 +1,9 @@
+[Version:1]
+TextContent 
+{
+	ZilchScriptBuilder 
+	{
+		var Name = "MapGenerator"
+		var ResourceId = 0x5a14ffd951036a25
+	}
+}

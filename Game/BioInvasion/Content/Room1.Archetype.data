@@ -1,0 +1,93 @@
+[Version:1]
+Cog 
+{
+	var Name = "Entrance"
+	Transform 
+	{
+		var Translation = Real3{-2.48342848, -1.00026774, 0}
+		var Scale = Real3{1, 2, 1}
+		var Rotation = Quaternion{0, 0, 0, 1}
+	}
+	Sprite 
+	{
+		var Visible = true
+		var ViewCulling = true
+		var VisibilityEvents = true
+		var OverrideBoundingBox = false
+		var LocalAabbCenter = Real3{0, 0, 0}
+		var LocalAabbHalfExtents = Real3{1, 1, 1}
+		var GroupSortValue = 0
+		var Material = "582c575af53d18c9:AlphaSprite"
+		var VertexColor = Real4{0.00499999523, 1, 0.194050059, 1}
+		var GeometryMode = SpriteGeometryMode.ZPlane
+		var SpriteSource = "5586f579ca73ecc2:SquareBordered"
+		var FlipX = false
+		var FlipY = false
+		var AnimationActive = true
+		var AnimationSpeed = 1
+		var StartFrame = 0
+	}
+	Hierarchy 
+	{
+		Cog [Id:0x5a14fb5a3491ac81]
+		{
+			var Name = "Exit"
+			Transform 
+			{
+				var Translation = Real3{12.003231, -3.50094271, 0}
+				var Scale = Real3{1, 1, 1}
+				var Rotation = Quaternion{0, 0, 0, 1}
+			}
+			Sprite 
+			{
+				var Visible = true
+				var ViewCulling = true
+				var VisibilityEvents = true
+				var OverrideBoundingBox = false
+				var LocalAabbCenter = Real3{0, 0, 0}
+				var LocalAabbHalfExtents = Real3{1, 1, 1}
+				var GroupSortValue = 0
+				var Material = "582c575af53d18c9:AlphaSprite"
+				var VertexColor = Real4{0.0238749981, 0.116987631, 0.954999983, 1}
+				var GeometryMode = SpriteGeometryMode.ZPlane
+				var SpriteSource = "5586f579ca73ecc2:SquareBordered"
+				var FlipX = false
+				var FlipY = false
+				var AnimationActive = true
+				var AnimationSpeed = 1
+				var StartFrame = 0
+			}
+		}
+		Cog [Id:0x5a14fb5534dbb893]
+		{
+			var Name = "TileMap"
+			Transform 
+			{
+				var Translation = Real3{2.48342848, 0.500133872, 0}
+				var Scale = Real3{1, 0.5, 1}
+				var Rotation = Quaternion{0, 0, 0, 1}
+			}
+			MultiSprite 
+			{
+				var Visible = true
+				var ViewCulling = true
+				var VisibilityEvents = true
+				var OverrideBoundingBox = false
+				var LocalAabbCenter = Real3{0, 0, 0}
+				var LocalAabbHalfExtents = Real3{1, 1, 1}
+				var GroupSortValue = 0
+				var Material = "582c575af53d18c9:AlphaSprite"
+				var VertexColor = Real4{1, 1, 1, 1}
+				var GeometryMode = SpriteGeometryMode.ZPlane
+				var AnimationActive = true
+				var AnimationSpeed = 1
+			}
+			TileMap 
+			{
+				var Source = "5a14fb5d3642e0aa:Level_TileMap00"
+				var PaletteName = ""
+				var MeshThickness = 1.20000005
+			}
+		}
+	}
+}

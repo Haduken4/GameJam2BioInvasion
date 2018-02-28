@@ -1,0 +1,239 @@
+/*
+MapGenerator.zilchscript
+Bar Ben-zvi
+2/2/18
+brief: Procedurally generates a map and stores it in an array
+*/
+
+// these values are bit values to store information in one integer
+// As an example, a room labeled 1 will have a single door to the north, while 15 has a door on all sides
+enum RoomBits{North = 1, East = 2, South = 4, West = 8, Start = 16, End = 32}
+
+
+//Class that stores info about each map node
+class MapNode
+{
+  var MapInfo : Integer = 0;
+  
+  var Level : Level = Level.EmptyLevel;
+}
+
+class MapGenerator : ZilchComponent
+{
+  // Wether we use a random seed or a preset one
+  [Property]
+  var UseRandomSeed : Boolean = true;
+  
+  // Seed value in case not random
+  [Property]
+  var Seed : Integer = 42;
+  
+  var RandomGenerator : Random = Random();
+  
+  // Map to store room numbers
+  var Map : Array[Array[MapNode]] = Array[Array[MapNode]]();
+  
+  // Values to initialize the map with
+  [Property]
+  var MaxMapSize : Integer = 10;
+  [Property]
+  var MinMapSize : Integer = 4;
+  // Map Size set later
+  var MapHeight : Integer;
+  var MapWidth : Integer;
+  // Starting position will be based on width and height
+  var StartCoords : Integer2;
+  
+  // Minimum length from start to end
+  [Property]
+  var MinPathLen : Integer = 7;
+  // Max length from start to end
+  [Property]
+  var MaxPathLen : Integer = 16;
+  
+  var PathLen : Integer;
+  
+  // Max number of tries before we give up
+  [Property]
+  var MaxTries : Integer = 100;
+  
+  //variables for level generation
+  var LevelType : String = "House";
+  
+  
+  function Initialize(init : CogInitializer)
+  {
+    if(!this.UseRandomSeed)
+    {
+      this.RandomGenerator.Seed = this.Seed;
+    }
+    // Initialize map
+    this.InitMap();
+    // Generate path
+    this.GeneratePath();
+    //set all levels in map
+    this.LevelFill();
+  }
+  
+  
+  function LevelFill()
+  {
+    //loop through map
+    for(var y = 0; y < this.MapHeight; ++y)
+    {
+      for(var x  = 0; x < this.MapWidth; ++x)
+      {
+        var levelName = this.LevelType;
+        levelName = String.Concatenate(levelName, "`this.Map[y][x].MapInfo`");
+        this.Map[y][x].Level = Level.FindOrDefault(levelName);
+      }
+    }
+    
+  }
+  
+  function InitMap()
+  {
+    // sets the random height and width of the map
+    this.MapHeight = this.RandomGenerator.RangeInclusiveMax(this.MinMapSize, this.MaxMapSize);
+    this.MapWidth = this.RandomGenerator.RangeInclusiveMax(this.MinMapSize, this.MaxMapSize);
+    
+    
+    for(var y = 0; y < this.MapHeight; ++y)
+    {
+      // Build outer array WITH ARRAYS
+      this.Map.Add(Array[MapNode]());
+      for(var x = 0; x < this.MapWidth; ++x)
+      {
+        // 0 represents an empty room
+        this.Map[y].Add(MapNode());
+      }
+    }
+    
+    this.StartCoords = Integer2(this.RandomGenerator.RangeExclusiveMax(0, this.MapWidth), this.RandomGenerator.RangeExclusiveMax(0, this.MapHeight));
+    
+    
+    this.PrintMap();
+    
+  }
+  
+  
+  function PrintMap()
+  {
+    for(var y = 0; y < this.MapHeight; ++y)
+    {
+      for(var x = 0; x < this.MapWidth; ++x)
+      {
+        if(this.Map[y][x].MapInfo < 10)
+        {
+          Console.Write(" ");
+        }
+        Console.Write("`this.Map[y][x].MapInfo` ");
+      }
+      Console.WriteLine("");
+    }
+    Console.WriteLine("------------------------------------");
+  }
+  
+  function GeneratePath()
+  {
+    // Base values
+    // Current location in the map
+    var currCoords = this.StartCoords;
+    // Current length of our path
+    var currPathLength = 0;
+    // Bit direction value of previous room
+    var cameFrom = 0;
+    // Set the path length
+    this.PathLen = this.RandomGenerator.RangeInclusiveMax(this.MinPathLen, this.MaxPathLen);
+    
+    // Add one room per path length, or until we can't add more rooms
+    while(currPathLength < this.PathLen)
+    {
+      var currRoom = cameFrom;
+      // If starting room, set start value
+      if(currRoom == 0)
+      {
+        currRoom |= RoomBits.Start;
+      }
+      
+      // Set up for direction choosing
+      // If random direction isn't valid it stays false
+      var dirFound = false;
+      // Set variable to keep track of attemps
+      var tries = 0;
+      // Keep trying until either valid direction is chosen or can't go anywhere
+      while(!dirFound && tries < this.MaxTries && currPathLength < this.PathLen - 1)
+      {
+        // Choose random direction
+        var randDir = this.RandomGenerator.DieRoll(4);
+        // Try North
+        if(randDir == 1)
+        {
+          if(currCoords.Y > 0 && this.Map[currCoords.Y - 1][currCoords.X].MapInfo == 0)
+          {
+            dirFound = true;
+            currRoom |= RoomBits.North;
+            cameFrom = RoomBits.South;
+            this.Map[currCoords.Y][currCoords.X].MapInfo = currRoom;
+            currCoords.Y -= 1;
+          }
+        }
+        // Try East
+        else if(randDir == 2)
+        {
+          if(currCoords.X < this.MapWidth - 1 && this.Map[currCoords.Y][currCoords.X + 1].MapInfo == 0)
+          {
+            dirFound = true;
+            currRoom |= RoomBits.East;
+            cameFrom = RoomBits.West;
+            this.Map[currCoords.Y][currCoords.X].MapInfo = currRoom;
+            currCoords.X += 1;
+          }
+        }
+        // Try South
+        else if(randDir == 3)
+        {
+          if(currCoords.Y < this.MapHeight - 1 && this.Map[currCoords.Y + 1][currCoords.X].MapInfo == 0)
+          {
+            dirFound = true;
+            currRoom |= RoomBits.South;
+            cameFrom = RoomBits.North;
+            this.Map[currCoords.Y][currCoords.X].MapInfo = currRoom;
+            currCoords.Y += 1;
+          }
+        }
+        // Try West
+        else if(randDir == 4)
+        {
+          if(currCoords.X > 0 && this.Map[currCoords.Y][currCoords.X - 1].MapInfo == 0)
+          {
+            dirFound = true;
+            currRoom |= RoomBits.West;
+            cameFrom = RoomBits.East;
+            this.Map[currCoords.Y][currCoords.X].MapInfo = currRoom;
+            currCoords.X -= 1;
+          }
+        }
+        
+        tries += 1;
+      }
+      if(tries >= this.MaxTries)
+      {
+        this.PathLen = currPathLength;
+        this.Map[currCoords.Y][currCoords.X].MapInfo = currRoom | RoomBits.End;
+        
+        break;
+      }
+      currPathLength += 1;
+      if(currPathLength == this.PathLen)
+      {
+        this.Map[currCoords.Y][currCoords.X].MapInfo = currRoom | RoomBits.End;
+      }
+      this.PrintMap();
+    }
+    
+    this.PrintMap();
+  }
+  
+  
+}

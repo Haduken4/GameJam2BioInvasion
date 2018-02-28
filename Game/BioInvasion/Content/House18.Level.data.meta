@@ -1,0 +1,12 @@
+[Version:1]
+DataContent 
+{
+	DataBuilder 
+	{
+		var Name = "House18"
+		var ResourceId = 0x5a1a53e9fc233652
+		var LoaderType = "Level"
+		var Version = 0
+		var ShowInEditor = true
+	}
+}
