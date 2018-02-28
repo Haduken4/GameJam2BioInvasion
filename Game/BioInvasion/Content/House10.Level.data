@@ -270,4 +270,22 @@ Level
 			var Scale = Real3{1, 3, 1}
 		}
 	}
+	Cog [InheritId:"5a972856a6ea2662:EnemySpawner"][ContextId:8]
+	{
+		Transform 
+		{
+			var Translation = Real3{-3.19910979, 0.889693618, 0}
+			var Rotation = Quaternion{0, 0, 0, 1}
+			var Scale = Real3{2, 2, 1}
+		}
+	}
+	Cog [InheritId:"5a972856a6ea2662:EnemySpawner"][ContextId:9]
+	{
+		Transform 
+		{
+			var Translation = Real3{3.89950752, 0.927552164, 0}
+			var Rotation = Quaternion{0, 0, 0, 1}
+			var Scale = Real3{2, 2, 1}
+		}
+	}
 }

@@ -1,0 +1,22 @@
+/*
+EnemySpawner.zilchscript
+by Bar Ben-zvi
+Date last edited: 2/28/2018
+Brief: Spawns a specified enemy on first entry to a room.
+*/
+class EnemySpawner : ZilchComponent
+{
+  //The enemy that will be spawned
+  [Property]
+  var EnemyToSpawn : Archetype = Archetype.TempEnemy;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, "Spawn", this.OnSpawn);
+  }
+
+  function OnSpawn(event : Event)
+  {
+    this.Space.CreateAtPosition(this.EnemyToSpawn, this.Owner.Transform.Translation);
+  }
+}

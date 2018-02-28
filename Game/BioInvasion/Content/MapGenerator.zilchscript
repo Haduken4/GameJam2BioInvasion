@@ -16,6 +16,8 @@ class MapNode
   var MapInfo : Integer = 0;
   
   var Level : Level = Level.EmptyLevel;
+  
+  var SpawnedEnemies : Boolean = false;
 }
 
 class MapGenerator : ZilchComponent

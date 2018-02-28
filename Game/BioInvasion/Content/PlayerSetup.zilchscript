@@ -8,12 +8,15 @@ class PlayerSetup : ZilchComponent
 {
   [Property]
   var DefaultSpawn : Real3 = Real3();
+  
   function Initialize(init : CogInitializer)
   {
     //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
     
     //find where to spawn player
     var spawnPos = this.DefaultSpawn;
+    
+    //var currRoom = this.GameSession.MapGenerator.Map[this.GameSession.PlayerInfo.CurrentLocation.X][this.GameSession.PlayerInfo.CurrentLocation.Y];
     
     if(this.GameSession.PlayerInfo.CameFrom == 1)
     {
@@ -51,6 +54,17 @@ class PlayerSetup : ZilchComponent
         spawnPos = door.Transform.WorldTranslation + Real3(1.2, 0, 0);
       }
     }
+    
+    //If spawned enemies is false for this room
+    //if(!currRoom.SpawnedEnemies)
+    //{
+      //Send the spawn event to spawn enemies
+      var spawnEvent = ZilchEvent();
+      this.Space.DispatchEvent("Spawn", spawnEvent);
+      //Set spawned enemies to true so we don't spawn enemies again
+      //currRoom.SpawnedEnemies = true;
+    //}
+    
     
     //create and place player
     this.Space.CreateAtPosition(this.GameSession.PlayerInfo.PlayerObj, spawnPos);

@@ -81,7 +81,7 @@ Level
 		var Name = "EditorCamera"
 		Transform 
 		{
-			var Translation = Real3{0, 0, 20}
+			var Translation = Real3{1.10878623, -1.88284445, 20}
 			var Scale = Real3{1, 1, 1}
 			var Rotation = Quaternion{0, -1.09278471e-08, 0, 1}
 		}
@@ -134,7 +134,7 @@ Level
 			var FarPlane = 500
 			var PerspectiveMode = PerspectiveMode.Orthographic
 			var FieldOfView = 45
-			var Size = 16.3746109
+			var Size = 19.9999905
 		}
 		EditorCameraController 
 		{
@@ -143,7 +143,7 @@ Level
 			var LookDistance = 20
 			var VerticalAngle = 0
 			var HorizontalAngle = 0
-			var LookTarget = Real3{0, 0, 0}
+			var LookTarget = Real3{1.10878623, -1.88284445, 4.84665854e-08}
 			var MoveSensitivity = 1
 		}
 	}
@@ -268,6 +268,24 @@ Level
 			var Translation = Real3{0.464665383, -6.51623487, 0}
 			var Rotation = Quaternion{0, 0, 0, 1}
 			var Scale = Real3{3, 1, 1}
+		}
+	}
+	Cog [InheritId:"5a972856a6ea2662:EnemySpawner"][ContextId:8]
+	{
+		Transform 
+		{
+			var Translation = Real3{-4.83263302, -1.40167308, 0}
+			var Rotation = Quaternion{0, 0, 0, 1}
+			var Scale = Real3{2, 2, 1}
+		}
+	}
+	Cog [InheritId:"5a972856a6ea2662:EnemySpawner"][ContextId:9]
+	{
+		Transform 
+		{
+			var Translation = Real3{5.60669184, -1.5481168, 0}
+			var Rotation = Quaternion{0, 0, 0, 1}
+			var Scale = Real3{2, 2, 1}
 		}
 	}
 }
